@@ -4,9 +4,7 @@ import ChatDialog from './ChatDialog';
 
 const FAQPage = () => {
   const [showChat, setShowChat] = useState(false);
-  const [chatHistory, setChatHistory] = useState([
-    { role: 'ai', content: "Hi! I'm an AI assistant trained on Saras AI documentation, help articles, and other content. Ask me anything about Saras AI." }
-  ]);
+  const [chatHistory, setChatHistory] = useState([]);
 
   useEffect(() => {
     const handleMessage = (event) => {
@@ -54,7 +52,6 @@ const FAQPage = () => {
         }}>
           <ChatDialog 
             onClose={() => setShowChat(false)}
-            initialMessages={chatHistory}
             updateChatHistory={setChatHistory}
           />
         </div>

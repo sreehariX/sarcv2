@@ -1,10 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const ChatDialog = ({ onClose, initialMessages, updateChatHistory }) => {
+const ChatDialog = ({ onClose, updateChatHistory }) => {
   const [query, setQuery] = useState('');
-  const [messages, setMessages] = useState(initialMessages);
+  const [messages, setMessages] = useState([
+    { role: 'ai', content: "Hi! I am Saras trained on FAQ's. Ask me anything related to FAQ's, I will give you relevant answers." }
+  ]);
+  const [exampleQuestions] = useState([
+    
+    
+    
+    "Is it possible to interact with mentors outside of class sessions? ",
+    "Are scholarships offered at Saras AI Institute, and how do I apply?",
+    "Can you describe the structure of the curriculum at Saras AI Institute?",
+  ]);
   const messagesEndRef = useRef(null);
   const latestMessageRef = useRef(null);
+  const [isInitialState, setIsInitialState] = useState(true);
 
   const scrollToLatestMessage = () => {
     latestMessageRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -30,13 +41,15 @@ const ChatDialog = ({ onClose, initialMessages, updateChatHistory }) => {
     };
   }, [onClose]);
 
-  const handleSearch = async () => {
-    if (!query.trim()) return;
+  const handleSearch = async (exampleQuery = null) => {
+    const searchQuery = exampleQuery || query;
+    if (!searchQuery.trim()) return;
+    setIsInitialState(false);
 
-    const userMessage = { role: 'user', content: query };
+    const userMessage = { role: 'user', content: searchQuery };
     setMessages(prev => [...prev, userMessage]);
     updateChatHistory(prev => [...prev, userMessage]);
-    setQuery('');
+    setQuery(''); // Clear the query input regardless of whether it's an example or not
 
     try {
       const response = await fetch('http://localhost:8000/search', {
@@ -44,7 +57,7 @@ const ChatDialog = ({ onClose, initialMessages, updateChatHistory }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query: searchQuery }), // Use searchQuery instead of query
       });
 
       if (!response.ok) {
@@ -86,7 +99,6 @@ const ChatDialog = ({ onClose, initialMessages, updateChatHistory }) => {
             </div>
           </div>
         `;
-
         const aiMessage = { role: 'ai', content: aiResponse + sourcesSection };
         setMessages(prev => [...prev, aiMessage]);
         updateChatHistory(prev => [...prev, aiMessage]);
@@ -190,6 +202,31 @@ const ChatDialog = ({ onClose, initialMessages, updateChatHistory }) => {
             </div>
           </div>
         ))}
+        {isInitialState && (
+          <div style={{ marginTop: '20px' }}>
+            <p style={{ fontWeight: 'bold', color: '#666', marginBottom: '10px' }}>EXAMPLE QUESTIONS</p>
+            {exampleQuestions.map((question, index) => (
+              <div
+                key={index}
+                onClick={() => handleSearch(question)}
+                style={{
+                  display: 'flex',
+                  width: 'fit-content',
+                  padding: '10px 15px',
+                  margin: '5px 0',
+                  backgroundColor: '#f0f0f0',
+                  borderRadius: '18px',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.3s',
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#e0e0e0'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+              >
+                {question}
+              </div>
+            ))}
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
       <div style={{ display: 'flex' }}>
