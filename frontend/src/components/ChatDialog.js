@@ -52,7 +52,7 @@ const ChatDialog = ({ onClose, updateChatHistory }) => {
     setQuery(''); // Clear the query input regardless of whether it's an example or not
 
     try {
-      const response = await fetch('http://localhost:8000/search', {
+      const response = await fetch('http://20.193.158.88/search', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
