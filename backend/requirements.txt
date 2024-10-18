@@ -1,3 +1,5 @@
 gradio
 sentence-transformers
 chromadb
+fastapi
+uvicorn
