@@ -1,4 +1,4 @@
-![Screenshot 2024-10-19 101928](https://github.com/user-attachments/assets/033d3033-148c-42c5-8629-f012afaa03f2)# Saras AI Chatbot
+# Saras AI Chatbot
 
 This repository contains the implementation of a chatbot for the Saras AI website, integrated through an iframe. The chatbot helps users by fetching relevant FAQs based on their queries and displaying them on the chatbox.
 
