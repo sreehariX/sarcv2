@@ -43,7 +43,7 @@ const ChatDialog = ({ onClose, updateChatHistory }) => {
 
   const handleSearch = async (exampleQuery = null) => {
     const searchQuery = exampleQuery || query;
-    if (!searchQuery.trim()) return;
+    if (!searchQuery || typeof searchQuery !== 'string' || !searchQuery.trim()) return;
     setIsInitialState(false);
 
     const userMessage = { role: 'user', content: searchQuery };
@@ -57,7 +57,7 @@ const ChatDialog = ({ onClose, updateChatHistory }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query: searchQuery }), // Use searchQuery instead of query
+        body: JSON.stringify({ query: searchQuery }),
       });
 
       if (!response.ok) {
@@ -238,16 +238,26 @@ const ChatDialog = ({ onClose, updateChatHistory }) => {
           placeholder="Ask a question..."
           style={{ flexGrow: 1, padding: '12px', borderRadius: '25px', border: '1px solid #ccc', marginRight: '10px', fontSize: '16px' }}
         />
-        <button onClick={handleSearch} style={{
-          padding: '12px 25px',
-          backgroundColor: '#e57549',
-          color: 'white',
-          border: 'none',
-          borderRadius: '25px',
-          cursor: 'pointer',
-          fontSize: '16px',
-          fontWeight: 'bold'
-        }}>Send</button>
+        <button 
+          onClick={() => handleSearch()}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            handleSearch();
+          }}
+          style={{
+            padding: '12px 25px',
+            backgroundColor: '#e57549',
+            color: 'white',
+            border: 'none',
+            borderRadius: '25px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            touchAction: 'manipulation'
+          }}
+        >
+          Send
+        </button>
       </div>
     </div>
   );
