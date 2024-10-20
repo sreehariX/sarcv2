@@ -7,7 +7,7 @@ This repository contains the implementation of a chatbot for the Saras AI websit
 - [Technologies Used](#technologies-used)
 - [System Architecture](#system-architecture)
 - [How It Works](#how-it-works)
-- [Hackathon Checkpoint](#hackathon-checkpoint)
+- [Hackathon Checkpoints](#hackathon-checkpoints)
 
 
 ## Overview
@@ -19,7 +19,7 @@ This repository contains the implementation of a chatbot for the Saras AI websit
 ![Screenshot 2024-10-19 101204](https://github.com/user-attachments/assets/b337be98-95f6-47e3-b7ea-1b6d49184248)
 
 
-The chatbot is designed to assist users by answering their questions through a set of predefined FAQs. The chatbot frontend is embedded in the Saras AI website using an iframe the user interacts with the ask saras ai button, and it dynamically fetches the most relevant FAQs from a backend powered by a vector database and machine learning models.
+The chatbot is designed to assist users by answering their questions through a set of predefined FAQs. The chatbot frontend is embedded in the Saras AI website using an iframe. When the user interacts with the "Ask Saras AI" button, it dynamically fetches the most relevant FAQs from a backend powered by the ChromaDB vector database and machine learning models.
 
 - **Frontend**: Built with React and deployed on Vercel.
 - **Backend**: A FastAPI service hosted on AWS EC2. It processes user queries and retrieves relevant FAQs using embeddings from a transformer model and a vector database.
@@ -49,18 +49,18 @@ The chatbot is designed to assist users by answering their questions through a s
 
 ## How It Works
 
-1. **User Interaction**: The user interacts with the ask sara ai button which is located on the bottom right and then a chatbot will appear on the website.
+1. **User Interaction**: The user interacts with the "Ask Saras AI" button which is located on the bottom right and then a chatbot will appear on the website.
 2. **Query Processing**: The frontend sends the user's query to the backend API hosted on AWS EC2.
 3. **Vector Search**: The backend uses ChromaDB to search for the top 5 most relevant FAQs based on query embeddings generated using the SentenceTransformer model.
 4. **Response**: The top 5 FAQs are sent to the frontend, which displays the top 3 to the user.
 
-## Hackathon Checkpoint
+## Hackathon Checkpoints
 
 As part of the SARAS AI Institute hackathon, we developed a **Smart FAQ Module** to deliver relevant FAQs based on user queries. Here’s how we tackled the key challenges:
 
-- **Relevance**: We integrated **SentenceTransformer (`paraphrase-MiniLM-L6-v2`)**, allowing us to match user queries with FAQ entries based on semantic similarity, not just keyword matching. This ensures users get answers that truly align with their questions.
+- **Relevance**: We integrated **SentenceTransformer (`paraphrase-MiniLM-L6-v2`)**, allowing us to match user queries with FAQ entries based on semantic similarity, and not just keyword matching. This ensures that users get answers that truly align with their questions.
 
-- **Performance**: By utilizing **ChromaDB**, a vector database, we ensured that search queries are processed quickly, even with a large set of FAQs. This makes the system responsive and capable of handling real-time interactions.
+- **Performance**: By utilizing **ChromaDB**, a vector database, we ensured that the search queries are processed quickly, even with a large set of FAQs. This makes the system responsive and capable of handling real-time interactions.
 
 - **Seamless Integration**: The frontend, built with **React** and deployed via **Vercel**, is integrated smoothly into the SARAS AI website using an iframe. The chatbot fits naturally into the website’s layout, providing a consistent and seamless user experience.
 
@@ -70,4 +70,4 @@ As part of the SARAS AI Institute hackathon, we developed a **Smart FAQ Module**
 
 - **Scalability**: The system is built to scale, handling larger FAQ datasets and more user traffic without compromising on speed or accuracy. The combination of **FastAPI** and **ChromaDB** ensures that the backend can grow as the FAQ database expands.
 
-- **Tech Stack**: We leveraged the power of open-source technologies, combining **FastAPI** for backend processing and **AWS EC2** for hosting, along with **React** on the frontend. This robust stack provided both reliability and performance during development.
+- **Tech Stack**: We used the power of open-source technologies, combining **FastAPI** for backend processing and **AWS EC2** for hosting, along with **React** on the frontend. This robust stack provided both reliability and performance during development.
