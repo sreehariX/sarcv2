@@ -47,7 +47,9 @@ The chatbot is designed to assist users by answering their questions through a s
 ## System Architecture
 ![Screenshot 2024-10-19 101928](https://github.com/user-attachments/assets/08c273b3-959c-46ac-908b-a77725e9a891)
 
-![Screenshot 2024-10-19 101954](https://github.com/user-attachments/assets/eb364ffe-1904-46f7-ac0a-484e809d3ccc)
+
+![Screenshot 2024-10-22 213153](https://github.com/user-attachments/assets/345471ad-f6a7-4217-ba9c-f7ba4bb51091)
+
 
 ![Screenshot 2024-10-19 102009](https://github.com/user-attachments/assets/ac99e920-e0ea-4c0e-9f93-f96414ab24b0)
 
