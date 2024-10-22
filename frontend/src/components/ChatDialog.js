@@ -14,18 +14,24 @@ const ChatDialog = ({ onClose, updateChatHistory }) => {
     "Can you describe the structure of the curriculum at Saras AI Institute?",
   ]);
   const chatContainerRef = useRef(null);
-  const latestAnswerRef = useRef(null);
   const [isInitialState, setIsInitialState] = useState(messages.length === 1);
+  const [isInitialRender, setIsInitialRender] = useState(true);
+  const lastMessageRef = useRef(null);
 
   const scrollToLatestAnswer = () => {
-    if (latestAnswerRef.current) {
-      latestAnswerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    if (chatContainerRef.current && lastMessageRef.current) {
+      if (isInitialRender) {
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        setIsInitialRender(false);
+      } else {
+        lastMessageRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   };
 
   useEffect(() => {
     if (messages.length > 1 && messages[messages.length - 1].role === 'ai') {
-      setTimeout(scrollToLatestAnswer, 100); // Add a small delay to ensure the content is rendered
+      scrollToLatestAnswer();
     }
     localStorage.setItem('chatMessages', JSON.stringify(messages));
     updateChatHistory(messages);
@@ -184,12 +190,16 @@ const ChatDialog = ({ onClose, updateChatHistory }) => {
       </div>
       <div 
         ref={chatContainerRef}
-        style={{ flexGrow: 1, overflowY: 'auto', marginBottom: '20px' }}
+        style={{ 
+          flexGrow: 1, 
+          overflowY: 'auto', 
+          marginBottom: '20px'
+        }}
       >
         {messages.map((message, index) => (
           <div 
             key={index} 
-            ref={message.role === 'ai' && index === messages.length - 1 ? latestAnswerRef : null}
+            ref={index === messages.length - 1 ? lastMessageRef : null}
             style={{ marginBottom: '15px', textAlign: message.role === 'user' ? 'right' : 'left' }}
           >
             <div style={{
