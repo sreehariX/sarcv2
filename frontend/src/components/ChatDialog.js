@@ -2,30 +2,34 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const ChatDialog = ({ onClose, updateChatHistory }) => {
   const [query, setQuery] = useState('');
-  const [messages, setMessages] = useState([
-    { role: 'ai', content: "Hi! I am Saras trained on FAQ's. Ask me anything related to FAQ's, I will give you relevant answers." }
-  ]);
+  const [messages, setMessages] = useState(() => {
+    const savedMessages = localStorage.getItem('chatMessages');
+    return savedMessages ? JSON.parse(savedMessages) : [
+      { role: 'ai', content: "Hi! I am Saras trained on FAQ's. Ask me anything related to FAQ's, I will give you relevant answers." }
+    ];
+  });
   const [exampleQuestions] = useState([
-    
-    
-    
     "Is it possible to interact with mentors outside of class sessions? ",
     "Are scholarships offered at Saras AI Institute, and how do I apply?",
     "Can you describe the structure of the curriculum at Saras AI Institute?",
   ]);
-  const messagesEndRef = useRef(null);
-  const latestMessageRef = useRef(null);
-  const [isInitialState, setIsInitialState] = useState(true);
+  const chatContainerRef = useRef(null);
+  const latestAnswerRef = useRef(null);
+  const [isInitialState, setIsInitialState] = useState(messages.length === 1);
 
-  const scrollToLatestMessage = () => {
-    latestMessageRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const scrollToLatestAnswer = () => {
+    if (latestAnswerRef.current) {
+      latestAnswerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    }
   };
 
   useEffect(() => {
-    if (messages.length > 0) {
-      scrollToLatestMessage();
+    if (messages.length > 1 && messages[messages.length - 1].role === 'ai') {
+      setTimeout(scrollToLatestAnswer, 100); // Add a small delay to ensure the content is rendered
     }
-  }, [messages]);
+    localStorage.setItem('chatMessages', JSON.stringify(messages));
+    updateChatHistory(messages);
+  }, [messages, updateChatHistory]);
 
   useEffect(() => {
     window.closeChat = (index) => {
@@ -48,8 +52,7 @@ const ChatDialog = ({ onClose, updateChatHistory }) => {
 
     const userMessage = { role: 'user', content: searchQuery };
     setMessages(prev => [...prev, userMessage]);
-    updateChatHistory(prev => [...prev, userMessage]);
-    setQuery(''); // Clear the query input regardless of whether it's an example or not
+    setQuery('');
 
     try {
       const response = await fetch('https://backendapi.centralindia.cloudapp.azure.com/search', {
@@ -101,17 +104,14 @@ const ChatDialog = ({ onClose, updateChatHistory }) => {
         `;
         const aiMessage = { role: 'ai', content: aiResponse + sourcesSection };
         setMessages(prev => [...prev, aiMessage]);
-        updateChatHistory(prev => [...prev, aiMessage]);
       } else {
         const aiMessage = { role: 'ai', content: "I'm sorry, I couldn't find a relevant answer to your question." };
         setMessages(prev => [...prev, aiMessage]);
-        updateChatHistory(prev => [...prev, aiMessage]);
       }
     } catch (error) {
       console.error('Error:', error);
       const aiMessage = { role: 'ai', content: "I'm sorry, there was an error processing your request." };
       setMessages(prev => [...prev, aiMessage]);
-      updateChatHistory(prev => [...prev, aiMessage]);
     }
   };
 
@@ -182,12 +182,15 @@ const ChatDialog = ({ onClose, updateChatHistory }) => {
         <h2 style={{ margin: 0, color: '#e57549' }}>Ask Saras AI</h2>
         <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>×</button>
       </div>
-      <div style={{ flexGrow: 1, overflowY: 'auto', marginBottom: '20px' }}>
+      <div 
+        ref={chatContainerRef}
+        style={{ flexGrow: 1, overflowY: 'auto', marginBottom: '20px' }}
+      >
         {messages.map((message, index) => (
           <div 
             key={index} 
+            ref={message.role === 'ai' && index === messages.length - 1 ? latestAnswerRef : null}
             style={{ marginBottom: '15px', textAlign: message.role === 'user' ? 'right' : 'left' }}
-            ref={index === messages.length - 1 ? latestMessageRef : null}
           >
             <div style={{
               display: 'inline-block',
@@ -227,7 +230,6 @@ const ChatDialog = ({ onClose, updateChatHistory }) => {
             ))}
           </div>
         )}
-        <div ref={messagesEndRef} />
       </div>
       <div style={{ display: 'flex' }}>
         <input
