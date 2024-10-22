@@ -7,10 +7,12 @@ This repository contains the implementation of a chatbot for the Saras AI websit
 - [Technologies Used](#technologies-used)
 - [System Architecture](#system-architecture)
 - [How It Works](#how-it-works)
-- [Hackathon Checkpoints](#hackathon-checkpoints)
+- [Hackathon Checkpoints](#hackathon-checkpoints) 
+- [Future improvements](#future-improvements)
 - [Integration guide ](#integration-documentation)
   - [React](#react-implementation)
   - [Angular](#angular-implementation)
+- [Project exprience ](#project-experience)
 
 
 ## Overview
@@ -55,6 +57,10 @@ The chatbot is designed to assist users by answering their questions through a s
 1. **User Interaction**: The user interacts with the "Ask Saras AI" button which is located on the bottom right and then a chatbot will appear on the website.
 2. **Query Processing**: The frontend sends the user's query to the backend API hosted on Microsoft Azure EC machine.
 3. **Vector Search**: The backend uses ChromaDB to search for the top 5 most relevant FAQs based on query embeddings generated using the SentenceTransformer model.
+
+![Screenshot 2024-10-22 212716](https://github.com/user-attachments/assets/8d3d26a1-02c6-44f0-ac5b-27587dadbab8)
+
+
 4. **Response**: The top 5 FAQs are sent to the frontend, which displays the top 3 to the user.
 
 ## Hackathon Checkpoints
@@ -74,6 +80,20 @@ As part of the SARAS AI Institute hackathon, we developed a **Smart FAQ Module**
 - **Scalability**: The system is built to scale, handling larger FAQ datasets and more user traffic without compromising on speed or accuracy. The combination of **FastAPI** and **ChromaDB** ensures that the backend can grow as the FAQ database expands.
 
 - **Tech Stack**: We used the power of open-source technologies, combining **FastAPI** for backend processing and **Microsoft Azure EC machine** for hosting, along with **React** on the frontend. This robust stack provided both reliability and performance during development.
+
+
+## Future Improvements
+
+- **Using a Proprietary LLM**: If we had access to an LLM API key, our idea is to send the top three query answers to the LLM for summarization, and return a response that includes the source links to the FAQs along with summarized response.
+  
+- **Enhanced Query Matching**: Another improvement that we would have done is to send the user's query to the LLM to retrieve similar questions, attach these questions, and then embed them then search imporving the response accuracy.
+
+- We would have implemented all of these features if we had access to an LLM API key. The infrastructure is already in place, and it would only require a simple backend function update to implement these improvements.
+
+
+
+
+
 
 
 # Integration documentation
@@ -730,3 +750,10 @@ export class ChatDialogComponent implements OnInit, AfterViewChecked {
 }
 ```
 
+## Project Experience
+
+- We really enjoyed experimenting with this project, and we learned a lot while piecing everything together, including how to deploy on Vercel and a Microsoft Azure EC2 machine.
+  
+- One challenge that took considerable time was configuring the backend API address with Apache server to secure an SSL certificate, allowing us to use the API on the frontend after deploying to Vercel.
+
+- We primarily used open-source codebases, with ChromaDB being our favorite. It handles a large number of requests simultaneously and is also easy to configure and reliable .
