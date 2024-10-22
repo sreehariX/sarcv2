@@ -5,6 +5,7 @@ import ChatDialog from './ChatDialog';
 const FAQPage = () => {
   const [showChat, setShowChat] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
+  const [isOverlayVisible, setIsOverlayVisible] = useState(false);
 
   useEffect(() => {
     const handleMessage = (event) => {
@@ -35,8 +36,11 @@ const FAQPage = () => {
         }}
         sandbox="allow-scripts allow-same-origin"
       />
-      <AskSarasButton onClick={() => setShowChat(true)} />
-      {showChat && (
+      <AskSarasButton onClick={() => {
+        setIsOverlayVisible(true);
+        setTimeout(() => setShowChat(true), 50);
+      }} />
+      {isOverlayVisible && (
         <div style={{
           position: 'fixed',
           top: 0,
@@ -48,12 +52,19 @@ const FAQPage = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          zIndex: 1000
+          zIndex: 1000,
+          opacity: showChat ? 1 : 0,
+          transition: 'opacity 0.2s ease-in-out',
         }}>
-          <ChatDialog 
-            onClose={() => setShowChat(false)}
-            updateChatHistory={setChatHistory}
-          />
+          {showChat && (
+            <ChatDialog 
+              onClose={() => {
+                setShowChat(false);
+                setTimeout(() => setIsOverlayVisible(false), 300);
+              }}
+              updateChatHistory={setChatHistory}
+            />
+          )}
         </div>
       )}
     </div>
