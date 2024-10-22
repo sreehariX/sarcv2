@@ -73,7 +73,7 @@ As part of the SARAS AI Institute hackathon, we developed a **Smart FAQ Module**
 
 - **Performance**: By utilizing **ChromaDB**, a vector database, we ensured that the search queries are processed quickly, even with a large set of FAQs. This makes the system responsive and capable of handling real-time interactions.
 
-- **Seamless Integration**: The frontend, built with **React** and deployed via **Vercel**, is integrated smoothly into the SARAS AI website using an iframe. The chatbot fits naturally into the website’s layout, providing a consistent and seamless user experience.
+- **Seamless Integration**: The frontend, built with **React** and deployed via **Vercel**, is integrated smoothly into the SARAS AI website using two components the code is given below for integration . The chatbot fits naturally into the website’s layout, providing a consistent and seamless user experience.
 
 - **User Experience**: We designed the chatbot interface to be intuitive and user-friendly. Users can simply enter their query, and in return, they get the top 3 most relevant FAQs displayed in a clean, easy-to-read format.
 
