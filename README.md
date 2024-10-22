@@ -25,7 +25,7 @@ This repository contains the implementation of a chatbot for the Saras AI websit
 The chatbot is designed to assist users by answering their questions through a set of predefined FAQs. The chatbot frontend is embedded in the Saras AI website using an iframe. When the user interacts with the "Ask Saras AI" button, it dynamically fetches the most relevant FAQs from a backend powered by the ChromaDB vector database and machine learning models.
 
 - **Frontend**: Built with React and deployed on Vercel.
-- **Backend**: A FastAPI service hosted on Microsoft Azure. It processes user queries and retrieves relevant FAQs using embeddings from a transformer model and a vector database.
+- **Backend**: A FastAPI service hosted on Microsoft Azure EC machine. It processes user queries and retrieves relevant FAQs using embeddings from a transformer model and a vector database.
 - **Vector Database**: ChromaDB for efficient retrieval of FAQ embeddings.
 - **Embeddings Model**: SentenceTransformer (`paraphrase-MiniLM-L6-v2`) for generating query and FAQ embeddings.
 
@@ -53,7 +53,7 @@ The chatbot is designed to assist users by answering their questions through a s
 ## How It Works
 
 1. **User Interaction**: The user interacts with the "Ask Saras AI" button which is located on the bottom right and then a chatbot will appear on the website.
-2. **Query Processing**: The frontend sends the user's query to the backend API hosted on Microsoft Azure.
+2. **Query Processing**: The frontend sends the user's query to the backend API hosted on Microsoft Azure EC machine.
 3. **Vector Search**: The backend uses ChromaDB to search for the top 5 most relevant FAQs based on query embeddings generated using the SentenceTransformer model.
 4. **Response**: The top 5 FAQs are sent to the frontend, which displays the top 3 to the user.
 
@@ -73,7 +73,7 @@ As part of the SARAS AI Institute hackathon, we developed a **Smart FAQ Module**
 
 - **Scalability**: The system is built to scale, handling larger FAQ datasets and more user traffic without compromising on speed or accuracy. The combination of **FastAPI** and **ChromaDB** ensures that the backend can grow as the FAQ database expands.
 
-- **Tech Stack**: We used the power of open-source technologies, combining **FastAPI** for backend processing and **Microsoft Azure** for hosting, along with **React** on the frontend. This robust stack provided both reliability and performance during development.
+- **Tech Stack**: We used the power of open-source technologies, combining **FastAPI** for backend processing and **Microsoft Azure EC machine** for hosting, along with **React** on the frontend. This robust stack provided both reliability and performance during development.
 
 
 # Integration documentation
